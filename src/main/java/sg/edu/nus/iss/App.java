@@ -1,7 +1,12 @@
 package sg.edu.nus.iss;
 
+import java.nio.file.OpenOption;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 /**
  * Hello world!
@@ -77,9 +82,53 @@ public final class App {
             return a + b;
         };
 
-        System.out.printf("addOperation: %d\n", addOperation.process(1, 1));
-        System.out.printf("multiplyOperation: %d\n", multiplyOperation.process(2, 2));
-        System.out.printf("concatOperation: %s\n", concatOperation.process("cat", "food"));
+        MyMessageInterface printString = (a) -> {
+            System.out.println(a);
+        };
+
+        // System.out.printf("addOperation: %d\n", addOperation.process(1, 1));
+        // System.out.printf("multiplyOperation: %d\n", multiplyOperation.process(2,
+        // 2));
+        // System.out.printf("concatOperation: %s\n", concatOperation.process("cat",
+        // "food"));
+        // printString.printMessage("Go for break at 12pm");
+
+        // list of employees
+        List<Employee> employees = new ArrayList<Employee>();
+        employees.add(new Employee(1, "zihao", "ooi", 10000));
+        employees.add(new Employee(2, "david", "loh", 10000));
+        employees.add(new Employee(3, "adam", "khoo", 20000));
+        employees.add(new Employee(4, "bernard", "tan", 2000));
+
+        // employees.forEach(employee -> {
+        // System.out.println(employee);
+        // });
+
+        //collectors to list is necessary so that it can be collected as list and displayed
+        List<Employee> filteredEmployees = employees.stream()
+                .filter(employee -> employee.getLastName().contains("oo"))
+                .collect(Collectors.toList());
+
+        // filteredEmployees.forEach(employee -> {
+        // System.out.println(employee);
+        // });
+
+        employees.sort(Comparator.comparing(emp -> emp.getFirstName()));
+        
+        //compare by firstname then reverse it
+        Comparator<Employee> compare = Comparator.comparing(e -> e.getFirstName());
+        employees.sort(compare.reversed());
+
+        //sort by first name, and then within the people with same firstname, sort by last name
+        Comparator<Employee> groupByComparator = Comparator.comparing(Employee::getFirstName)
+                .thenComparing(Employee::getLastName);
+
+        employees.sort(groupByComparator);
+        
+        //print the info out
+        employees.forEach(employee -> {
+            System.out.println(employee);
+        });
 
     }
 
