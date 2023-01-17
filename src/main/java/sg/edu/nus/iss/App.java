@@ -57,11 +57,30 @@ public final class App {
         // executorService.shutdown();
 
         // unlike fixed, cached will allocate counters for you dynamically
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        executorService.execute(mRI);
-        executorService.execute(mRI2);
-        executorService.execute(mRI3);
-        executorService.execute(mRI4);
-        executorService.shutdown();
+        // ExecutorService executorService = Executors.newCachedThreadPool();
+        // executorService.execute(mRI);
+        // executorService.execute(mRI2);
+        // executorService.execute(mRI3);
+        // executorService.execute(mRI4);
+        // executorService.shutdown();
+
+        // example of how you run a runnable interface
+        MyRunnableInterface<Integer> addOperation = (a, b) -> {
+            return a + b;
+        };
+
+        MyRunnableInterface<Integer> multiplyOperation = (a, b) -> {
+            return a * b;
+        };
+
+        MyRunnableInterface<String> concatOperation = (a, b) -> {
+            return a + b;
+        };
+
+        System.out.printf("addOperation: %d\n", addOperation.process(1, 1));
+        System.out.printf("multiplyOperation: %d\n", multiplyOperation.process(2, 2));
+        System.out.printf("concatOperation: %s\n", concatOperation.process("cat", "food"));
+
     }
+
 }
